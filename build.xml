@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="ant-tasks">
+  	<taskdef resource="org/ant/tasks/tasks.properties">
+		<classpath path="lib/ant-tasks.jar"/>
+	</taskdef>
+    <property environment="env"/>
+    <property file="./default.properties"/>
+    <path id="ant-tasks.classpath">
+        <pathelement location="build"/>
+        <pathelement location="lib/ant.jar"/>
+    </path>
+    <target depends="clean" name="init">
+        <mkdir dir="build"/>
+        <copy includeemptydirs="false" todir="build">
+            <fileset dir="src/java">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target depends="init" name="build">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/java"/>
+            <classpath refid="ant-tasks.classpath"/>
+        </javac>
+    </target>
+  	<target depends="build" name="package">
+  		<jar compress="true" jarfile="lib/ant-tasks.jar">
+  			<fileset dir="build" />
+  		</jar>
+  	</target>
+    <target name="metalink">
+        <meta4 file="test.meta4">
+            <fileset dir="./src"/>
+        </meta4>
+    </target>
+</project>
